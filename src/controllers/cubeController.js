@@ -1,3 +1,3 @@
-exports.getCreateGube = (req, res) => {
+exports.getCreateCube = (req, res) => {
 	res.render("create");
 }
