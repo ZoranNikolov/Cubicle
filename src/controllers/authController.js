@@ -2,27 +2,27 @@ const router = require("express").Router();
 
 const authService = require("../services/authService");
 
-router.get('/login', (req, res) => {
-	res.render('auth/login');
+router.get("/login", (req, res) => {
+	res.render("auth/login");
 });
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
 	const { username, password } = req.body;
 	try {
 		const token = await authService.login(username, password);
-		console.log(token);
+
+		res.cookie("auth", token, { httpOnly: true });
 	} catch (err) {
 		console.log(err);
-		return res.redirect('/');
 	}
-	res.redirect('/');
+	res.redirect("/");
 });
 
-router.get('/register', (req, res) => {
-	res.render('auth/register');
+router.get("/register", (req, res) => {
+	res.render("auth/register");
 });
 
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
 	const { username, password, repeatPassword } = req.body;
 
 	if (password !== repeatPassword) {
@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
 	const user = await authService.register(username, password);
 	console.log(user);
 
-	res.redirect('/login');
-})
+	res.redirect("/login");
+});
 
 module.exports = router;
